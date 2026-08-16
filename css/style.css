@@ -27,7 +27,6 @@
   --font-heading: 'Space Grotesk', 'Segoe UI', sans-serif;
   --font-body: 'Inter', 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
-  --font-serif: 'Playfair Display', Georgia, serif; /* pull-quote only */
   /* Guaranteed glyph coverage for non-Latin characters (e.g. the
      Armenian Dram sign, ֏) that Space Grotesk / Inter don't include. */
   --font-safe: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Arial, sans-serif;
@@ -140,8 +139,52 @@ h1, h2, h3 {
   transform: translateY(0);
 }
 
+/* Container-level reveals that cascade their children in with a gentle
+   stagger, rather than moving as one big block (which reads as "already
+   there" by the time you scroll down to it). The container itself stays
+   put; its children fade/slide in one after another. Used by the hero
+   and each class-detail block. */
+.hero-inner[data-reveal],
+.detail-block[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-inner > *,
+.detail-block .detail-media,
+.detail-block .detail-text > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.65s var(--ease), transform 0.65s var(--ease),
+              color 0.25s var(--ease);
+}
+
+.hero-inner.is-visible > *,
+.detail-block.is-visible .detail-media,
+.detail-block.is-visible .detail-text > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger: each item starts a beat after the one before it */
+.hero-inner.is-visible > *:nth-child(1) { transition-delay: 0.05s; }
+.hero-inner.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
+.hero-inner.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
+.hero-inner.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
+
+.detail-block.is-visible .detail-media { transition-delay: 0.05s; }
+.detail-block.is-visible .detail-text > *:nth-child(1) { transition-delay: 0.10s; }
+.detail-block.is-visible .detail-text > *:nth-child(2) { transition-delay: 0.16s; }
+.detail-block.is-visible .detail-text > *:nth-child(3) { transition-delay: 0.22s; }
+.detail-block.is-visible .detail-text > *:nth-child(4) { transition-delay: 0.28s; }
+.detail-block.is-visible .detail-text > *:nth-child(5) { transition-delay: 0.34s; }
+.detail-block.is-visible .detail-text > *:nth-child(6) { transition-delay: 0.40s; }
+
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  [data-reveal],
+  .hero-inner > *,
+  .detail-block .detail-media,
+  .detail-block .detail-text > * {
     opacity: 1;
     transform: none;
     transition: none;
@@ -194,6 +237,22 @@ h1, h2, h3 {
   border-color: rgba(255, 255, 255, 0.6);
   background: rgba(255, 255, 255, 0.12);
   transform: translateY(-2px) scale(1.02);
+}
+
+/* Hero's secondary CTA sits on a busy photo, so a clean transparent
+   hairline reads better here than the frosted-glass fill. Scoped to the
+   hero only — the outline buttons elsewhere keep their frosted style. */
+.hero-actions .btn-outline {
+  background: transparent;
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.hero-actions .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* =========================================================
@@ -378,15 +437,22 @@ h1, h2, h3 {
    ========================================================= */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 30px;
+  /* Four even columns so every card carries equal weight in one row —
+     no single card stranded alone on a second row. */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
 }
 
-/* With 4 cards in a 3-column grid, the 4th wraps to a new row —
-   center it instead of leaving it stranded on the left. */
-@media (min-width: 1040px) {
-  .card-grid > a:nth-child(4) {
-    grid-column: 2 / span 1;
+/* 4 across on desktop → a balanced 2x2 on tablets → single column on phones */
+@media (max-width: 1040px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .card-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -505,12 +571,13 @@ h1, h2, h3 {
 }
 
 .cta-inner .quote {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+  font-family: var(--font-heading);
   font-weight: 600;
-  max-width: 780px;
-  letter-spacing: 0;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+  max-width: 820px;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -864,13 +931,19 @@ h1, h2, h3 {
 
 .about-image {
   position: relative;
+  /* Stretch to match the text column's natural height instead of forcing
+     a fixed portrait ratio, so the two sides line up cleanly. The image
+     is absolutely positioned so it fills that height without dictating it. */
+  align-self: stretch;
+  min-height: 320px;
   border-radius: var(--radius);
   overflow: hidden;
-  aspect-ratio: 4 / 5;
   border: 1px solid var(--hairline);
 }
 
 .about-image img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1145,6 +1218,7 @@ h1, h2, h3 {
   .about-image {
     order: -1;
     aspect-ratio: 16 / 10;
+    min-height: 0;
   }
 
   .detail-block,
