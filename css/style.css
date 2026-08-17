@@ -1251,10 +1251,14 @@ h1, h2, h3 {
 .footer-col ul {
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 7px;
 }
 
 .footer-col ul a {
+  /* Block so each link's box hugs its own 0.93rem line-height. As inline
+     text the links inherited the <li>'s 16px line-box and rendered ~4px
+     lower than the paragraph text in the other footer columns. */
+  display: block;
   color: var(--ink-muted);
   font-size: 0.93rem;
   transition: color 0.25s var(--ease);
