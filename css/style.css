@@ -1303,15 +1303,22 @@ h1, h2, h3 {
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
-    padding: 10px 28px 26px;
+    /* No vertical padding or visible border while collapsed, so the box
+       is truly 0px tall and nothing (e.g. the first "Home" link) peeks
+       out below the header until the menu is opened. */
+    padding: 0 28px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s var(--ease);
-    border-bottom: 1px solid var(--hairline);
+    border-bottom: 1px solid transparent;
+    transition: max-height 0.35s var(--ease), padding 0.35s var(--ease),
+                border-color 0.35s var(--ease);
   }
 
   .main-nav.open {
-    max-height: 400px;
+    max-height: 420px;
+    padding-top: 10px;
+    padding-bottom: 26px;
+    border-bottom-color: var(--hairline);
   }
 
   .main-nav ul {
