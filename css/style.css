@@ -706,11 +706,17 @@ h1, h2, h3 {
   color: #ddd6cd;
 }
 
-.detail-list li .dash {
+/* Small accent chevron marker — echoes the "→" arrow used on the class
+   cards, so the benefit lists feel intentional rather than punctuated
+   with a stray em-dash. */
+.detail-list li .detail-bullet {
   flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-weight: 300;
-  color: var(--accent-text);
+  width: 6px;
+  height: 6px;
+  margin-top: 7px;
+  border-right: 1.6px solid var(--accent-text);
+  border-bottom: 1.6px solid var(--accent-text);
+  transform: rotate(-45deg);
 }
 
 .detail-actions {
@@ -1262,6 +1268,17 @@ h1, h2, h3 {
   color: #6b6360;
   font-size: 0.82rem;
   font-family: var(--font-mono);
+}
+
+/* Subtle designer credit — sits opposite the copyright, same muted
+   register so it reads as a quiet signature, not a call-out. */
+.footer-credit a {
+  color: var(--ink-muted);
+  transition: color 0.25s var(--ease);
+}
+
+.footer-credit a:hover {
+  color: var(--white);
 }
 
 /* =========================================================
