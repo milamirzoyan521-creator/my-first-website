@@ -342,7 +342,7 @@
 
       <div class="contact-grid">
         <div class="contact-form-wrap" data-reveal>
-          <form class="contact-form" id="contactForm" action="#" method="post">
+          <form class="contact-form" id="contactForm" action="https://formspree.io/f/xljrpdbe" method="post">
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" placeholder="Your name" required />
 
@@ -351,6 +351,8 @@
 
             <label for="message">Message</label>
             <textarea id="message" name="message" rows="5" placeholder="Tell us what you're looking for..." required></textarea>
+
+            <p class="form-error" id="formError" role="alert" hidden></p>
 
             <button type="submit" class="btn btn-primary">Send Message</button>
           </form>
