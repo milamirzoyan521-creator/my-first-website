@@ -1299,15 +1299,86 @@ h1, h2, h3 {
   font-family: var(--font-mono);
 }
 
-/* Subtle designer credit — sits opposite the copyright, same muted
-   register so it reads as a quiet signature, not a call-out. */
-.footer-credit a {
+/* Footer-bottom links (the Privacy Policy link and the designer credit) —
+   a muted register a touch brighter than the copyright text, lifting to
+   white on hover so they read as quiet, tappable links. */
+.footer-bottom a {
   color: var(--ink-muted);
   transition: color 0.25s var(--ease);
 }
 
-.footer-credit a:hover {
+.footer-bottom a:hover {
   color: var(--white);
+}
+
+/* =========================================================
+   PRIVACY / LEGAL PAGE
+   A simple, readable prose column that reuses the site's type
+   scale and wine accent so the standalone page feels native.
+   ========================================================= */
+.legal-inner {
+  max-width: 760px;
+}
+
+.legal-updated {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  margin-top: -6px;
+  margin-bottom: 40px;
+}
+
+.legal-body p {
+  color: var(--ink-muted);
+  line-height: 1.75;
+  margin-bottom: 18px;
+  max-width: 68ch;
+}
+
+.legal-body strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.legal-body h2 {
+  font-size: 1.25rem;
+  letter-spacing: -0.3px;
+  margin-top: 40px;
+  margin-bottom: 14px;
+}
+
+.legal-body a {
+  color: var(--accent-text);
+  transition: color 0.25s var(--ease);
+}
+
+.legal-body a:hover {
+  color: var(--white);
+}
+
+.legal-list {
+  margin: 0 0 18px;
+}
+
+.legal-list li {
+  position: relative;
+  padding-left: 22px;
+  color: var(--ink-muted);
+  line-height: 1.9;
+}
+
+/* Same small accent chevron used by the class-detail lists */
+.legal-list li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 12px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.6px solid var(--accent-text);
+  border-bottom: 1.6px solid var(--accent-text);
+  transform: rotate(-45deg);
 }
 
 /* =========================================================
