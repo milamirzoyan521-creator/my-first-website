@@ -115,3 +115,126 @@ if (contactForm && formSuccess && formError && sendAnotherBtn) {
     contactForm.querySelector('#name').focus();
   });
 }
+
+// ---------- Membership signup modal ----------
+// Opened from the pricing plan buttons. Pre-fills the plan the visitor
+// clicked, submits to the same Formspree endpoint as the contact form,
+// and only shows the confirmation after a successful submission.
+const signupModal = document.getElementById('signupModal');
+
+if (signupModal) {
+  const signupPanel = document.getElementById('signupPanel');
+  const signupSuccess = document.getElementById('signupSuccess');
+  const signupForm = document.getElementById('signupForm');
+  const signupError = document.getElementById('signupError');
+  const signupPlan = document.getElementById('signupPlan');
+  const signupPlanLabel = document.getElementById('signupPlanLabel');
+  const signupSubject = document.getElementById('signupSubject');
+  const signupName = document.getElementById('signupName');
+  const signupSubmit = signupForm.querySelector('button[type="submit"]');
+  const planButtons = document.querySelectorAll('[data-plan]');
+
+  let lastFocused = null;
+
+  const openModal = (plan) => {
+    // Always reset to the form view when opening.
+    signupSuccess.hidden = true;
+    signupPanel.hidden = false;
+    signupError.hidden = true;
+    signupForm.reset();
+
+    if (plan) {
+      signupPlan.value = plan;
+      signupPlanLabel.textContent = `${plan} membership`;
+      signupSubject.value = `New membership inquiry — ${plan}`;
+    } else {
+      signupPlanLabel.textContent = 'membership';
+      signupSubject.value = 'New membership inquiry';
+    }
+
+    lastFocused = document.activeElement;
+    signupModal.hidden = false;
+    document.body.classList.add('modal-open');
+    window.requestAnimationFrame(() => signupName.focus());
+  };
+
+  const closeModal = () => {
+    signupModal.hidden = true;
+    document.body.classList.remove('modal-open');
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+      lastFocused.focus();
+    }
+  };
+
+  planButtons.forEach((btn) => {
+    btn.addEventListener('click', () => openModal(btn.dataset.plan));
+  });
+
+  // Close via the × button, the "Close" button, or a click on the backdrop.
+  signupModal.querySelectorAll('[data-close]').forEach((el) => {
+    el.addEventListener('click', closeModal);
+  });
+
+  // Keyboard: Escape closes; Tab is trapped inside the dialog.
+  signupModal.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+
+    const focusable = Array.from(
+      signupModal.querySelectorAll('a[href], button:not([disabled]), input, select, textarea')
+    ).filter((el) => el.offsetParent !== null);
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+
+  const showSignupError = (message) => {
+    signupError.textContent = message;
+    signupError.hidden = false;
+  };
+
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    signupError.hidden = true;
+    const originalLabel = signupSubmit.textContent;
+    signupSubmit.disabled = true;
+    signupSubmit.textContent = 'Sending…';
+
+    try {
+      const response = await fetch(signupForm.action, {
+        method: 'POST',
+        body: new FormData(signupForm),
+        headers: { Accept: 'application/json' },
+      });
+
+      if (response.ok) {
+        signupPanel.hidden = true;
+        signupSuccess.hidden = false;
+        signupForm.reset();
+      } else {
+        const data = await response.json().catch(() => null);
+        const message =
+          data && Array.isArray(data.errors) && data.errors.length
+            ? data.errors.map((err) => err.message).join(' ')
+            : 'Sorry, something went wrong. Please try again.';
+        showSignupError(message);
+      }
+    } catch (err) {
+      showSignupError('Could not reach the server. Please check your connection and try again.');
+    } finally {
+      signupSubmit.disabled = false;
+      signupSubmit.textContent = originalLabel;
+    }
+  });
+}

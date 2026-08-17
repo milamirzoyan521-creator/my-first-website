@@ -1282,6 +1282,190 @@ h1, h2, h3 {
 }
 
 /* =========================================================
+   SIGNUP / INQUIRY MODAL
+   Opened from the pricing plan buttons; posts to the same
+   Formspree endpoint as the contact form.
+   ========================================================= */
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 5, 5, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: modalFade 0.25s var(--ease);
+}
+
+.modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: linear-gradient(180deg, #17110f 0%, #100c0b 100%);
+  border: 1px solid rgba(239, 230, 216, 0.14);
+  border-radius: 14px;
+  padding: 42px 40px;
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.8);
+  animation: modalRise 0.3s var(--ease);
+}
+
+@keyframes modalFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalRise {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.modal-close:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.modal-panel > .section-tag {
+  margin-bottom: 10px;
+}
+
+.modal-dialog h3 {
+  font-size: 1.5rem;
+  letter-spacing: -0.4px;
+  margin-bottom: 10px;
+}
+
+.modal-sub {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 26px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-form label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 7px;
+  margin-top: 16px;
+}
+
+.modal-form label:first-of-type {
+  margin-top: 0;
+}
+
+.modal-form input,
+.modal-form select {
+  font-family: var(--font-body);
+  background: transparent;
+  color: var(--white);
+  padding: 12px 4px;
+  border: none;
+  border-bottom: 1.5px solid rgba(239, 230, 216, 0.2);
+  border-radius: 0;
+  font-size: 0.95rem;
+  transition: border-color 0.25s var(--ease);
+}
+
+.modal-form select option {
+  background: #17110f;
+  color: var(--white);
+}
+
+.modal-form input::placeholder {
+  color: var(--ink-muted);
+  opacity: 1;
+}
+
+.modal-form input:focus,
+.modal-form select:focus {
+  outline: none;
+  border-bottom-color: var(--accent-btn);
+}
+
+.modal-form .form-error {
+  margin-top: 18px;
+}
+
+.modal-form button[type="submit"] {
+  margin-top: 26px;
+  width: 100%;
+}
+
+.modal-success {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.modal-success[hidden] {
+  display: none;
+}
+
+.modal-success h3 {
+  font-size: 1.35rem;
+}
+
+.modal-success p {
+  color: var(--ink-muted);
+}
+
+.modal-success .btn {
+  margin-top: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal-dialog {
+    animation: none;
+  }
+}
+
+/* =========================================================
    14. RESPONSIVE / MOBILE
    ========================================================= */
 @media (max-width: 900px) {
@@ -1382,6 +1566,14 @@ h1, h2, h3 {
 @media (max-width: 600px) {
   .section {
     padding: 72px 0;
+  }
+
+  .modal {
+    padding: 16px;
+  }
+
+  .modal-dialog {
+    padding: 34px 22px;
   }
 
   .hero {
