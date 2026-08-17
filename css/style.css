@@ -217,7 +217,12 @@ h1, h2, h3 {
   font-weight: 600;
   font-family: var(--font-heading);
   font-size: 0.95rem;
+  /* Explicit line-height so every button is the same height in every
+     section — without it, .btn inherited different line-heights (e.g. the
+     pricing/contact buttons rendered ~5px shorter than the hero/detail ones). */
+  line-height: 1.5;
   letter-spacing: 0.2px;
+  text-align: center;
   cursor: pointer;
   border: 1.5px solid transparent;
   transition: transform 0.25s var(--ease), background 0.25s var(--ease),
@@ -233,8 +238,12 @@ h1, h2, h3 {
 
 .btn-primary:hover {
   background: var(--accent-btn-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 26px -14px rgba(0, 0, 0, 0.7);
+  /* Primary CTAs are the clear main action, so they get a more noticeable
+     lift + slight scale + a soft wine glow (secondary/outline buttons keep
+     the restrained lift, so the primary always reads as the stronger cue). */
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 16px 34px -10px rgba(156, 32, 56, 0.55),
+              0 0 0 1px rgba(239, 230, 216, 0.12);
 }
 
 /* Frosted-glass secondary button — sits on photos and dark surfaces
@@ -723,6 +732,13 @@ h1, h2, h3 {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
+}
+
+/* Match the pair to the same width so "Book This Class" and "See Pricing"
+   read as an even set (they already share height/padding/font; only the
+   label lengths differed). */
+.detail-actions .btn {
+  min-width: 190px;
 }
 
 /* =========================================================
@@ -1593,7 +1609,8 @@ body.modal-open {
     transform: translateY(-6px);
   }
 
-  .hero-actions {
+  .hero-actions,
+  .detail-actions {
     flex-direction: column;
     align-items: stretch;
   }
