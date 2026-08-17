@@ -310,15 +310,24 @@ h1, h2, h3 {
 }
 
 .logo {
+  display: inline-block;
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--white);
   letter-spacing: 0.3px;
+  transition: transform 0.25s var(--ease), text-shadow 0.25s var(--ease);
 }
 
 .logo span {
   color: var(--accent-text);
+}
+
+/* Clickable brand mark gets the same lift + soft wine glow as the primary
+   CTAs, so its hover language is consistent with the main buttons. */
+.logo:hover {
+  transform: translateY(-1px);
+  text-shadow: 0 6px 20px rgba(156, 32, 56, 0.5);
 }
 
 .main-nav {
