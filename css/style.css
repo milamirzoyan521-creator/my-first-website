@@ -97,24 +97,26 @@ h1, h2, h3 {
   color: var(--accent-text);
   font-family: var(--font-mono);
   font-weight: 500;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  font-size: 0.8rem;
-  margin-bottom: 14px;
+  font-size: 0.78rem;
+  margin-bottom: 16px;
 }
 
 .section-title {
-  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  font-size: clamp(2rem, 4.2vw, 3rem);
   font-weight: 600;
-  margin-bottom: 18px;
-  letter-spacing: -0.5px;
+  line-height: 1.08;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
 }
 
 .section-desc {
-  max-width: 560px;
+  max-width: 580px;
   color: var(--ink-muted);
-  margin-bottom: 60px;
-  font-size: 1.05rem;
+  margin-bottom: 64px;
+  font-size: 1.1rem;
+  line-height: 1.7;
 }
 
 /* Alternate background bands so sections read as distinct, not one
@@ -122,6 +124,19 @@ h1, h2, h3 {
 .classes, .about { background: var(--bg-elevated); }
 .pricing, .contact { background: var(--bg); }
 .class-details { background: var(--bg); }
+
+/* Cohesive photography grade — the single most unifying move. Every
+   content photo is pulled toward the same slightly-desaturated, higher-
+   contrast register so a set of separate stock shots reads as one
+   campaign shot for this brand. (Decorative/near-invisible images like
+   the pricing background are intentionally excluded.) */
+.hero-media img,
+.card-media img,
+.detail-media img,
+.cta-media img,
+.about-image img {
+  filter: saturate(0.68) contrast(1.06) brightness(0.95);
+}
 
 /* =========================================================
    2. SCROLL-REVEAL ANIMATION
@@ -218,9 +233,8 @@ h1, h2, h3 {
 
 .btn-primary:hover {
   background: var(--accent-btn-hover);
-  filter: brightness(1.08);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 14px 32px -8px rgba(156, 32, 56, 0.6), 0 0 0 1px rgba(239, 230, 216, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -14px rgba(0, 0, 0, 0.7);
 }
 
 /* Frosted-glass secondary button — sits on photos and dark surfaces
@@ -236,7 +250,7 @@ h1, h2, h3 {
 .btn-outline:hover {
   border-color: rgba(255, 255, 255, 0.6);
   background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-2px);
 }
 
 /* Hero's secondary CTA sits on a busy photo, so a clean transparent
@@ -410,18 +424,19 @@ h1, h2, h3 {
 }
 
 .hero h1 {
-  font-size: clamp(2.3rem, 6vw, 4rem);
+  font-size: clamp(2.5rem, 6.2vw, 4.25rem);
   font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 24px;
-  letter-spacing: -1px;
+  line-height: 1.04;
+  margin-bottom: 26px;
+  letter-spacing: -1.5px;
 }
 
 .hero-sub {
-  font-size: 1.12rem;
+  font-size: 1.14rem;
+  line-height: 1.7;
   color: #d7d0c9;
-  max-width: 530px;
-  margin: 0 0 40px;
+  max-width: 500px;
+  margin: 0 0 44px;
 }
 
 .hero-actions {
@@ -466,9 +481,9 @@ h1, h2, h3 {
 }
 
 .card:hover {
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-6px);
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 24px 44px -18px rgba(0, 0, 0, 0.6);
 }
 
 .card-media {
@@ -499,8 +514,21 @@ h1, h2, h3 {
   padding: 24px 24px 28px;
 }
 
+/* Numbered index that mirrors the "01 — Weightlifting" markers on the
+   detail sections below, tying the card grid to those anchors as one
+   sequence rather than four unrelated tiles. */
+.card-index {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  color: var(--accent-text);
+  margin-bottom: 9px;
+}
+
 .card-body h3 {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
+  letter-spacing: -0.2px;
   margin-bottom: 10px;
 }
 
@@ -891,19 +919,20 @@ h1, h2, h3 {
 
 .about-text p {
   color: var(--ink-muted);
-  margin-bottom: 16px;
+  max-width: 52ch;
+  margin-bottom: 18px;
 }
 
 .stats {
   display: flex;
-  margin-top: 36px;
+  margin-top: 48px;
   flex-wrap: wrap;
 }
 
 .stat {
   display: flex;
   flex-direction: column;
-  padding: 0 36px;
+  padding: 0 40px;
   border-left: 1px solid rgba(239, 230, 216, 0.16);
 }
 
@@ -914,19 +943,20 @@ h1, h2, h3 {
 
 .stat-num {
   font-family: var(--font-heading);
-  font-size: clamp(2.3rem, 4vw, 2.9rem);
+  font-size: clamp(2.5rem, 4.2vw, 3.1rem);
   font-weight: 300;
   line-height: 1;
+  letter-spacing: -1.5px;
   color: var(--ivory);
 }
 
 .stat-label {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   color: var(--ink-muted);
   text-transform: uppercase;
-  letter-spacing: 0.7px;
-  margin-top: 4px;
+  letter-spacing: 1px;
+  margin-top: 10px;
 }
 
 .about-image {
@@ -1104,6 +1134,16 @@ h1, h2, h3 {
 .info-block p {
   color: var(--ink-muted);
   font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.info-block a {
+  color: var(--ink-muted);
+  transition: color 0.25s var(--ease);
+}
+
+.info-block a:hover {
+  color: var(--white);
 }
 
 /* =========================================================
